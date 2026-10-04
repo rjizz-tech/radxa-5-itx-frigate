@@ -1,0 +1,23 @@
+[Unit]
+Description=ROCK 5 ITX Frigate with UUID storage guard
+Requires=docker.service
+After=docker.service network-online.target srv-frigate-media.mount
+Wants=network-online.target
+RequiresMountsFor=/srv/frigate/media
+BindsTo=srv-frigate-media.mount
+
+[Service]
+Type=simple
+WorkingDirectory=@PROJECT_DIR@
+ExecStart=/usr/bin/python3 @PROJECT_DIR@/tools/start.py up --attached
+ExecStop=/usr/bin/python3 @PROJECT_DIR@/tools/start.py down
+TimeoutStartSec=180
+TimeoutStopSec=120
+Restart=always
+RestartSec=60
+# Container logs are already bounded in Docker; avoid duplicating video logs.
+StandardOutput=null
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target

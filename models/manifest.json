@@ -1,0 +1,75 @@
+{
+  "schema_version": 1,
+  "models": {
+    "yolov9": {
+      "file": "frigate-yolov9-tiny.axmodel",
+      "url": "https://huggingface.co/AXERA-TECH/frigate-resource/resolve/45f54e14944fc81cea1329d7581e19d7400937f2/frigate-yolov9-tiny.axmodel",
+      "sha256": "d31b92f7f07a6f847c0ef5285bcb9e6b2b6005d1a7174ce257a55ba9fa7acc97",
+      "source_revision": "45f54e14944fc81cea1329d7581e19d7400937f2",
+      "input": {
+        "shape": [
+          1,
+          320,
+          320,
+          3
+        ],
+        "dtype": "uint8"
+      },
+      "format": "frigate-yolo"
+    },
+    "yolo26n": {
+      "file": "yolo26n.axmodel",
+      "url": "https://huggingface.co/AXERA-TECH/yolo26/resolve/29a97acdbe26f65c2f786bb32fb75023a0714b69/ax650/yolo26n.axmodel",
+      "sha256": "bbe08322f1694470f286f5fc531d4fb8fa1b92255b74011ee0b6d63cb3fae322",
+      "source_revision": "29a97acdbe26f65c2f786bb32fb75023a0714b69",
+      "input": {
+        "shape": [
+          1,
+          640,
+          640,
+          3
+        ],
+        "dtype": "uint8"
+      },
+      "format": "axera-yolo26-heads"
+    },
+    "yolo26s": {
+      "file": "yolo26s.axmodel",
+      "url": "https://huggingface.co/AXERA-TECH/yolo26/resolve/29a97acdbe26f65c2f786bb32fb75023a0714b69/ax650/yolo26s.axmodel",
+      "sha256": "5e414680ae60d456b78ff8531cb1437c6d79db861a9124fb01d01461638578e2",
+      "source_revision": "29a97acdbe26f65c2f786bb32fb75023a0714b69",
+      "input": {
+        "shape": [
+          1,
+          640,
+          640,
+          3
+        ],
+        "dtype": "uint8"
+      },
+      "format": "axera-yolo26-heads"
+    }
+  },
+  "runtime": {
+    "url": "https://github.com/AXERA-TECH/pyaxengine/releases/download/0.1.3-frigate/axengine-0.1.3-py3-none-any.whl",
+    "sha256": "e995b8a887b067dc3456512aae2fa9c84f70e708c28b11caf184efdc254c64ae",
+    "file": "axengine-0.1.3-py3-none-any.whl"
+  },
+  "face_sources": {
+    "arcface.onnx": {
+      "url": "https://github.com/NickM-27/facenet-onnx/releases/download/v1.0/arcface.onnx",
+      "sha256": "ec639a0429b4819130d1405a2d3b38beaa4cc4a6c5bd9cf48b94fdf65461de83",
+      "file": "arcface.onnx"
+    },
+    "facedet.onnx": {
+      "url": "https://github.com/NickM-27/facenet-onnx/releases/download/v1.0/facedet.onnx",
+      "sha256": "321aa5a6afabf7ecc46a3d06bfab2b579dc96eb5c3be7edd365fa04502ad9294",
+      "file": "facedet.onnx"
+    },
+    "landmarkdet.yaml": {
+      "url": "https://github.com/NickM-27/facenet-onnx/releases/download/v1.0/landmarkdet.yaml",
+      "sha256": "70dd8b1657c42d1595d6bd13d97d932877b3bed54a95d3c4733a0f740d1fd66b",
+      "file": "landmarkdet.yaml"
+    }
+  }
+}

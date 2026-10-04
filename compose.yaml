@@ -1,0 +1,86 @@
+name: radxa-frigate
+services:
+  frigate:
+    image: ${FRIGATE_IMAGE:-radxa-frigate:0.18.0-radxa.1}
+    build:
+      context: .
+      platforms: [linux/arm64]
+    platform: linux/arm64
+    container_name: radxa-frigate
+    # systemd performs UUID preflight before each boot; on-failure does not
+    # auto-start this container behind systemd's storage guard after reboot.
+    restart: on-failure:5
+    stop_grace_period: 60s
+    shm_size: "4gb"
+    pids_limit: 4096
+    ulimits:
+      nofile: {soft: 65535, hard: 65535}
+    security_opt:
+      - apparmor=unconfined
+      - systempaths=unconfined
+    devices:
+      - /dev/dri:/dev/dri
+      - /dev/dma_heap:/dev/dma_heap
+      - /dev/rga:/dev/rga
+      - /dev/mpp_service:/dev/mpp_service
+      - /dev/axcl_host:/dev/axcl_host
+      - /dev/ax_mmb_dev:/dev/ax_mmb_dev
+      - /dev/msg_userdev:/dev/msg_userdev
+    volumes:
+      - type: bind
+        source: ${CONFIG_DIR:-/srv/frigate/config}
+        target: /config
+        bind: {create_host_path: false}
+      - type: bind
+        source: ${MEDIA_DIR:-/srv/frigate/media}
+        target: /media/frigate
+        bind: {create_host_path: false}
+      - type: bind
+        source: ./models/artifacts
+        target: /models
+        read_only: true
+        bind: {create_host_path: false}
+      - type: bind
+        source: /usr/bin/axcl
+        target: /usr/bin/axcl
+        read_only: true
+        bind: {create_host_path: false}
+      - type: bind
+        source: /usr/lib/axcl
+        target: /usr/lib/axcl
+        read_only: true
+        bind: {create_host_path: false}
+      - type: tmpfs
+        target: /tmp/cache
+        tmpfs:
+          size: 4294967296
+          mode: 01777
+    ports:
+      - "${BIND_IP:-0.0.0.0}:8971:8971"
+      - "${BIND_IP:-0.0.0.0}:8554:8554"
+      - "${BIND_IP:-0.0.0.0}:8555:8555/tcp"
+      - "${BIND_IP:-0.0.0.0}:8555:8555/udp"
+    environment:
+      TZ: Australia/Melbourne
+      SHM_MAX_FRAMES: "20"
+      FRIGATE_MQTT_HOST: ${FRIGATE_MQTT_HOST:?Set the remote MQTT broker address}
+      FRIGATE_MQTT_PORT: ${FRIGATE_MQTT_PORT:-1883}
+      FRIGATE_MQTT_USER: ${FRIGATE_MQTT_USER:?Set the MQTT username}
+      FRIGATE_MQTT_PASSWORD: ${FRIGATE_MQTT_PASSWORD:?Set the MQTT password}
+      FRIGATE_MQTT_TLS: ${FRIGATE_MQTT_TLS:-false}
+      FRIGATE_RTSP_USER: ${FRIGATE_RTSP_USER:-viewer}
+      FRIGATE_RTSP_PASSWORD: ${FRIGATE_RTSP_PASSWORD:?Set the Wyze RTSP password}
+      FRIGATE_RTSP_HOST: ${FRIGATE_RTSP_HOST:?Set the Wyze camera address}
+      FRIGATE_RESTREAM_PASSWORD: ${FRIGATE_RESTREAM_PASSWORD:?Set an RTSP restream password}
+      FRIGATE_RTSP_URL_USER: ${FRIGATE_RTSP_URL_USER:?Start through tools/start.py}
+      FRIGATE_RTSP_URL_PASSWORD: ${FRIGATE_RTSP_URL_PASSWORD:?Start through tools/start.py}
+      FRIGATE_RESTREAM_URL_PASSWORD: ${FRIGATE_RESTREAM_URL_PASSWORD:?Start through tools/start.py}
+    healthcheck:
+      test: [CMD, python3, /opt/radxa/tools/health.py, --check]
+      interval: 60s
+      timeout: 20s
+      start_period: 180s
+      retries: 3
+    logging:
+      driver: local
+      options: {max-size: "10m", max-file: "3"}

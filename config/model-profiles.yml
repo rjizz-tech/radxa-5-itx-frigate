@@ -1,0 +1,16 @@
+# tools/render_config.py applies these to a copy of config.example.yml.
+yolov9:
+  axcl_model: yolov9
+  path: /models/frigate-yolov9-tiny.axmodel
+  width: 320
+  height: 320
+yolo26n:
+  axcl_model: yolo26n
+  path: /models/yolo26n.axmodel
+  width: 640
+  height: 640
+yolo26s:
+  axcl_model: yolo26s
+  path: /models/yolo26s.axmodel
+  width: 640
+  height: 640

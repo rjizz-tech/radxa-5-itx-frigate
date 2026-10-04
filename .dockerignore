@@ -1,0 +1,11 @@
+.git
+.cache
+.test-deps
+__pycache__
+**/__pycache__
+.env
+config/config.yml
+models/artifacts
+reports
+backups
+tests

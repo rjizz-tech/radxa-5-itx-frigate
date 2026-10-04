@@ -1,0 +1,3 @@
+# Replace UUID and filesystem TYPE with the EXISTING SATA filesystem values.
+# Do not format the drive. Merge one line into /etc/fstab; never replace fstab.
+UUID=REPLACE_WITH_EXISTING_SATA_FILESYSTEM_UUID /srv/frigate/media REPLACE_WITH_EXISTING_FILESYSTEM_TYPE defaults 0 2

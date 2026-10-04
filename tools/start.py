@@ -11,6 +11,7 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('action', choices=['check', 'build', 'up', 'down', 'config'])
     parser.add_argument('--attached', action='store_true', help='Foreground supervision by systemd')
+    parser.add_argument('--image', help='Override FRIGATE_IMAGE for a staged build')
     args = parser.parse_args()
     if args.action == 'down':
         try:
@@ -20,6 +21,8 @@ def main():
             env = environment(ROOT/'.missing-stop-env', require_inputs=False)
     else:
         env = environment()
+    if args.image:
+        env['FRIGATE_IMAGE'] = args.image
     # Both build and launch fail closed when the storage/hardware deployment is
     # incomplete; direct cross-building can use docker compose build separately.
     if args.action in ('check', 'up'):

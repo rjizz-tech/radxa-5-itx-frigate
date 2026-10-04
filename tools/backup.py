@@ -20,7 +20,7 @@ def main():
     if args.output.exists():
         parser.error('Backup output already exists')
     service_active = subprocess.run(['systemctl', 'is-active', '--quiet', 'frigate.service']).returncode == 0
-    compose = ['docker', 'compose', '--project-directory', str(ROOT)]
+    compose = ['docker', 'compose', '--project-directory', str(ROOT), '--env-file', os.devnull]
     active = subprocess.run(compose+['ps', '--status', 'running', '-q', 'frigate'],
                             env=env, capture_output=True, text=True, check=True).stdout.strip()
     if service_active:

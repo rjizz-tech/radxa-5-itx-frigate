@@ -74,6 +74,11 @@ compressed input; normal occupancy should be much lower.
 
 ## Board deployment
 
+For a native Git-clone installation and subsequent `git pull --ff-only` updates,
+use the [board install/update commands](docs/git-deployment.md). They build on the
+ROCK 5 ITX, preserve persistent settings, install the guarded systemd service,
+and back up an existing deployment before activating an update.
+
 Use a path without spaces, e.g. `/opt/radxa-frigate`, for the project. Run board
 administration steps with appropriate privileges. Preserve the current disk.
 
